@@ -28,23 +28,21 @@ client.on("message", function(message)
         return;
     }
 
-    const messageBody = messageText.slice(commandPrefix.length);
-    const messageArgs = messageBody.split(' ');
-    const commandName = messageArgs.shift().toLowerCase();
+    const messageArgs = message.content.slice(commandPrefix.length).trim().split(/ +/);
+	const commandName = messageArgs.shift().toLowerCase();
 
     const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases.includes(commandName));
     const helpCommand = client.commands.get('commands');
 
     if(!command) 
     {
-        helpCommand.printHelp(message);
-        return;
+        return helpCommand.printHelp(message);
     }
 
     if (command.args && !messageArgs.length)
     {
-        helpCommand.printCommandHelp(message, commandName);
-        return;
+        return helpCommand.printCommandHelp(message, commandName);
+        
     }
 
     try {

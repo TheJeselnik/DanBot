@@ -27,17 +27,17 @@ module.exports = {
         return message.channel.send(textLines, { split: true });
     },
 
-    printCommandHelp(message, commandName)
+    printCommandHelp(message, commandNameArgs)
     {
         const { commands } = message.client;
         const textLines = [];
 
-        commandName = commandName.toLowerCase();
+        const commandName = commandNameArgs[0].toLowerCase();
         const command = commands.get(commandName) || commands.find(c => c.aliases.includes(commandName));
 
         if (!command)
         {
-            this.printHelp(message);
+            return this.printHelp(message);
         }
 
         textLines.push(`**Name:** ${command.name}  `);
