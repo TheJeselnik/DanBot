@@ -19,7 +19,7 @@ module.exports = {
 
     playSound(message, args)
     {
-        const { voice } = message.member;
+        var { voice } = message.member;
 
         //if (!voice.chann)
 

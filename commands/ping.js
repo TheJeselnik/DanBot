@@ -7,7 +7,7 @@ module.exports = {
     args: false,
     execute(message, args) 
     {
-        const pingTime = Date.now() - message.createdTimestamp;
+        var pingTime = Date.now() - message.createdTimestamp;
         message.channel.send(`Latency: ${pingTime}ms.`).then(message => 
             {
                 message.react(Emojis.marioPOG);

@@ -31,17 +31,17 @@ client.on("message", async message =>
         return;
     }
 
-    const messageText = message.content;
+    var messageText = message.content;
     if (!messageText.startsWith(commandPrefix))
     {
         return;
     }
 
-    const messageArgs = message.content.slice(commandPrefix.length).trim().split(/ +/);
-	const commandName = messageArgs.shift().toLowerCase();
+    var messageArgs = message.content.slice(commandPrefix.length).trim().split(/ +/);
+	var commandName = messageArgs.shift().toLowerCase();
 
-    const command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases.includes(commandName));
-    const helpCommand = client.commands.get('commands');
+    var command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases.includes(commandName));
+    var helpCommand = client.commands.get('commands');
 
     if(!command) 
     {
@@ -50,7 +50,7 @@ client.on("message", async message =>
 
     if (command.args && !messageArgs.length)
     {
-        const commandArgs = [ commandName ];
+        var commandArgs = [ commandName ];
         return helpCommand.printCommandHelp(message, commandArgs);
     }
 
@@ -62,6 +62,8 @@ client.on("message", async message =>
     } catch (error) {
         console.error(error);
         message.reply('Unable to process command');
+        var commandArgs = [ commandName ];
+        helpCommand.printCommandHelp(message, commandArgs);
     }
 
     readyForCommands = true;

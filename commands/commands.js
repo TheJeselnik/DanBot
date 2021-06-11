@@ -17,8 +17,8 @@ module.exports = {
     
     printHelp(message)
     {
-        const { commands } = message.client;
-        const textLines = [];
+        var { commands } = message.client;
+        var textLines = [];
 
         textLines.push('**Dan Bot Commands:**');
         textLines.push(commands.map(command => command.name).join(', '));
@@ -28,11 +28,11 @@ module.exports = {
 
     printCommandHelp(message, commandNameArgs)
     {
-        const { commands } = message.client;
-        const textLines = [];
+        var { commands } = message.client;
+        var textLines = [];
 
-        const commandName = commandNameArgs[0].toLowerCase();
-        const command = commands.get(commandName) || commands.find(c => c.aliases.includes(commandName));
+        var commandName = commandNameArgs[0].toLowerCase();
+        var command = commands.get(commandName) || commands.find(c => c.aliases.includes(commandName));
 
         if (!command)
         {
