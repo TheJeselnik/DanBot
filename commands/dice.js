@@ -6,6 +6,10 @@ module.exports = {
     args: true,
     execute(message, args) 
     {
-        
+        if (!args.length)
+        {
+            return;
+        }
+
     }
 }

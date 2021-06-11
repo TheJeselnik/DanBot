@@ -5,6 +5,7 @@ const config = require('./config.json');
 const commandPrefix = config.prefix;
 const client = new Discord.Client();
 
+var readyForCommands = true;
 
 client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
@@ -15,8 +16,16 @@ for (const file of commandFiles)
     client.commands.set(command.name, command);
 }
 
-client.on("message", function(message)
+client.on("message", async message =>
 {
+    // TODO find good bool solution to condense these if's
+
+    // TODO potentially queue the commands?
+    if (!readyForCommands)
+    {
+        return;
+    }
+
     if (message.author.bot) 
     {
         return;
@@ -41,9 +50,12 @@ client.on("message", function(message)
 
     if (command.args && !messageArgs.length)
     {
-        return helpCommand.printCommandHelp(message, commandName);
-        
+        const commandArgs = [ commandName ];
+        return helpCommand.printCommandHelp(message, commandArgs);
     }
+
+    readyForCommands = false;
+    //message.channel.send('not ready');
 
     try {
         command.execute(message, messageArgs);
@@ -51,6 +63,9 @@ client.on("message", function(message)
         console.error(error);
         message.reply('Unable to process command');
     }
+
+    readyForCommands = true;
+    //message.channel.send('ready');
 });
 
 client.login(config.token);

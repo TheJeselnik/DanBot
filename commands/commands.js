@@ -9,8 +9,7 @@ module.exports = {
     {
         if (!args.length) 
         {
-            this.printHelp(message);
-            return;
+            return this.printHelp(message);
         }
 
         this.printCommandHelp(message, args);
@@ -40,10 +39,13 @@ module.exports = {
             return this.printHelp(message);
         }
 
-        textLines.push(`**Name:** ${command.name}  `);
+        textLines.push(`Displaying Command Help for ${commandName}`);
+        textLines.push('```');
+        textLines.push(`**Name:** ${command.name}`);
         if (command.aliases) textLines.push(`**Aliases:** ${command.aliases.join(', ')}`);
         if (command.description) textLines.push(`**Description:** ${command.description}`);
         if (command.usage) textLines.push(`**Usage:** ${prefix}${command.name} ${command.usage}`);
+        textLines.push('```');
         return message.channel.send(textLines, { split: true });
     },
 };
