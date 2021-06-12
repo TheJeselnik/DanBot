@@ -2,7 +2,7 @@ module.exports = {
     name: 'dice',
     aliases: ['roll'],
     description: 'Rolls sided dice',
-    usage: '<dice sides> (<number of die>)',
+    usage: '<dice sides [1-1000]> (<number of die>[1-100])',
     args: true,
     execute(message, args) 
     {
@@ -11,13 +11,36 @@ module.exports = {
             return;
         }
         
-        var sides = args.shift();
-        var count = 1
+        var sides = parseInt(args.shift());
+        var count = 1;
         var diceRolls = [];
 
         if (args.length > 0)
         {
-            count = args.shift();
+            count = parseInt(args.shift());
+        }
+
+        if (!Number.isInteger(sides) || !Number.isInteger(count))
+        {
+            return this.printErrorForNonInteger(message);
+        }
+
+        if (sides > 1000)
+        {
+            sides = 1000;
+        }
+        if (count > 100)
+        {
+            count = 100;
+        }
+
+        if (sides < 1)
+        {
+            sides = 1;
+        }
+        if (count < 1)
+        {
+            count = 1;
         }
 
         for (i = 0; i < count; i++)
@@ -39,4 +62,9 @@ module.exports = {
         
         return message.channel.send(textLines, { split: true });
     },
+
+    printErrorForNonInteger(message)
+    {
+        return message.channel.send('Dice sides and count must be an integer');
+    }
 }
